@@ -1,4 +1,3 @@
-// src/app/components/task-form/task-form.component.ts
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,15 +17,15 @@ import { Task } from '../../models/task.model';
       <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="title">Title</label>
-          <input id="title" type="text" formControlName="title">
-          <div *ngIf="taskForm.get('title')?.errors?.['required'] && taskForm.get('title')?.touched">
+          <input id="title" type="text" formControlName="title" placeholder="Enter task title">
+          <div class="error" *ngIf="taskForm.get('title')?.errors?.['required'] && taskForm.get('title')?.touched">
             Title is required
           </div>
         </div>
 
         <div class="form-group">
           <label for="description">Description</label>
-          <textarea id="description" formControlName="description"></textarea>
+          <textarea id="description" formControlName="description" placeholder="Enter task description"></textarea>
         </div>
 
         <div class="form-group">
@@ -45,21 +44,83 @@ import { Task } from '../../models/task.model';
     </div>
   `,
   styles: [`
+    /* Container and Card Styles */
     .task-form {
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin: 40px auto;
       max-width: 500px;
-      margin: 0 auto;
-      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+    
+    .task-form h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 26px;
+      color: #333;
+    }
+
+    /* Form Group Styling */
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
-    label {
+
+    .form-group label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
     }
-    input, textarea, select {
+    
+    /* Input, Textarea and Select Field Styling */
+    input, 
+    textarea, 
+    select {
       width: 100%;
-      padding: 8px;
+      padding: 12px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+    
+    input:focus, 
+    textarea:focus, 
+    select:focus {
+      border-color: #0056b3;
+      outline: none;
+    }
+
+    /* Error Message Styling */
+    .error {
+      margin-top: 5px;
+      color: #d9534f;
+      font-size: 13px;
+    }
+
+    /* Button Styling */
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #0056b3;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    button:hover:not(:disabled) {
+      background-color: #003f7f;
+    }
+    
+    button:disabled {
+      background-color: #a0c8f0;
+      cursor: not-allowed;
     }
   `]
 })
@@ -82,7 +143,6 @@ export class TaskFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Check for the "id" parameter in the URL to determine edit mode
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       if (idParam) {
@@ -96,7 +156,6 @@ export class TaskFormComponent implements OnInit {
   loadTask(id: number) {
     this.taskService.getTaskById(id).subscribe(
       (task: Task) => {
-        // Populate the form with the task details
         this.taskForm.patchValue({
           title: task.title,
           description: task.description,
@@ -114,21 +173,17 @@ export class TaskFormComponent implements OnInit {
       const task: Task = this.taskForm.value;
       
       if (this.isEditing && this.taskId) {
-        // Update task
         this.taskService.updateTask(this.taskId, task).subscribe(
           updatedTask => {
             console.log('Task updated:', updatedTask);
-            // Navigate back to the task list after update
             this.router.navigate(['/tasks']);
           },
           error => console.error('Error updating task:', error)
         );
       } else {
-        // Create new task
         this.taskService.createTask(task).subscribe(
           response => {
             console.log('Task created:', response);
-            // Optionally, reset the form or navigate away after creation
             this.taskForm.reset();
             this.router.navigate(['/tasks']);
           },

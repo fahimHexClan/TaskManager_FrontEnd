@@ -1,4 +1,3 @@
-// src/app/app.routes.ts (if using a separate routing file)
 import { Routes } from '@angular/router';
 import { TaskListComponent } from './components/task-list/task-list.component';
 import { TaskFormComponent } from './components/task-form/task-form.component';

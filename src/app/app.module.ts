@@ -1,4 +1,3 @@
-// src/app/app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -19,7 +18,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    // For non-standalone components; otherwise, standalone components are self-contained.
   ],
   imports: [
     BrowserModule,
