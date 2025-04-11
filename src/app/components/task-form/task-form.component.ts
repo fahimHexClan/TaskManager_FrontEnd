@@ -44,7 +44,6 @@ import { Task } from '../../models/task.model';
     </div>
   `,
   styles: [`
-    /* Container and Card Styles */
     .task-form {
       background: #ffffff;
       border-radius: 8px;
@@ -74,7 +73,6 @@ import { Task } from '../../models/task.model';
       color: #444;
     }
     
-    /* Input, Textarea and Select Field Styling */
     input, 
     textarea, 
     select {
@@ -94,14 +92,12 @@ import { Task } from '../../models/task.model';
       outline: none;
     }
 
-    /* Error Message Styling */
     .error {
       margin-top: 5px;
       color: #d9534f;
       font-size: 13px;
     }
 
-    /* Button Styling */
     button {
       width: 100%;
       padding: 14px;
